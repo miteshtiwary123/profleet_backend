@@ -8,3 +8,4 @@ passlib[bcrypt]
 python-dotenv
 redis
 pydantic-settings
+argon2-cffi
