@@ -8,9 +8,8 @@ from alembic import context
 from dotenv import load_dotenv
 import os
 from sqlalchemy import create_engine
-from app.models import user
 
-load_dotenv() 
+load_dotenv()
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
