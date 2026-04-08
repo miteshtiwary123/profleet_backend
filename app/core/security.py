@@ -1,5 +1,6 @@
+from fastapi import HTTPException
 from passlib.context import CryptContext
-from jose import jwt
+from jose import jwt, JWTError
 from datetime import datetime, timedelta, timezone
 from app.core.config import settings
 
@@ -28,3 +29,16 @@ def create_refresh_token(data: dict):
     )
     to_encode.update({"exp": expire, "type": "refresh"})
     return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+
+
+def decode_token(token: str):
+    try:
+        payload = jwt.decode(
+            token,
+            settings.SECRET_KEY,
+            algorithms=[settings.ALGORITHM]
+        )
+        return payload
+
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
