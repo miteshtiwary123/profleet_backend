@@ -7,6 +7,7 @@ from alembic import context
 
 from dotenv import load_dotenv
 import os
+import app.models
 from sqlalchemy import create_engine
 
 load_dotenv()
