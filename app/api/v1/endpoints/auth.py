@@ -13,7 +13,6 @@ from app.services.user_service import (
     update_user_service, delete_user_service, get_all_users_service
 )
 from app.services.audit_service import log_action
-from app.services.rate_limit_service import check_rate_limit
 
 from app.repositories.token_repo import add_blacklist_token
 
@@ -25,16 +24,12 @@ router = APIRouter()
 
 @router.post("/register")
 def register(data: RegisterSchema, db: Session = Depends(get_db)):
-    check_rate_limit(db, f"register:{data.email}")
-
     user = register_user(db, data)
     return {"message": "User created", "user_id": user.id}
 
 
 @router.post("/login")
 def login(data: LoginSchema, db: Session = Depends(get_db)):
-    check_rate_limit(db, f"login:{data.email}")
-
     access, refresh = login_user(db, data)
     return {"access_token": access, "refresh_token": refresh}
 
