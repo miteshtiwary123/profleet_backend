@@ -2,13 +2,13 @@ from pydantic import BaseModel
 from typing import Optional, List
 
 
-class CreatePartySchema(BaseModel):
+class PartyCreate(BaseModel):
     trade_name: str
     address: Optional[str]
     gst_number: str
 
 
-class UpdatePartySchema(BaseModel):
+class PartyUpdate(BaseModel):
     trade_name: Optional[str]
     address: Optional[str]
 
