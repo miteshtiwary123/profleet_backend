@@ -23,6 +23,21 @@ def get_all_partys_api(skip: int = 0, limit: int = 10, db: Session = Depends(get
     return get_partys(db, skip, limit)
 
 
+@router.get("/search")
+def search_party_api(
+    query: str,
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
+    results = search_parties_service(db, query)
+
+    return {
+        "message": "Search results",
+        "count": len(results),
+        "data": results
+    }
+
+
 @router.get("/{party_id}")
 def get_party_api(party_id: int, db: Session = Depends(get_db)):
     return get_party(db, party_id)
@@ -37,18 +52,3 @@ def update_party_api(party_id: int, data: PartyUpdate, db: Session = Depends(get
 def delete_party_api(party_id: int, db: Session = Depends(get_db)):
     delete_party(db, party_id)
     return {"message": "Deleted"}
-
-
-@router.get("/search")
-def search_party_api(
-    query: str,
-    db: Session = Depends(get_db),
-    current_user = Depends(get_current_user)
-):
-    results = search_parties_service(db, query)
-
-    return {
-        "message": "Search results",
-        "count": len(results),
-        "data": results
-    }
