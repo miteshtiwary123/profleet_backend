@@ -1,3 +1,4 @@
+from sqlalchemy import or_
 from app.models.party import Party
 
 
@@ -33,4 +34,14 @@ def update_party(db, party, data):
 def delete_party(db, party):
     db.delete(party)
     db.commit()
-    
+
+
+def search_parties(db, query: str):
+    return db.query(Party).filter(
+        or_(
+            Party.trade_name.ilike(f"%{query}%"),
+            Party.gst_number.ilike(f"%{query}%"),
+            Party.phone.ilike(f"%{query}%"),
+            Party.pincode.ilike(f"%{query}%")
+        )
+    ).all()

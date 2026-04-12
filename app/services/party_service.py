@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 from app.models.party import Party
 from app.repositories.common_repo import create, get_by_id, get_all, delete
+from app.repositories.party_repo import search_parties
 
 
 def create_party(db, data):
@@ -31,3 +32,7 @@ def update_party(db, party_id, data):
 def delete_party(db, party_id):
     party = get_party(db, party_id)
     delete(db, party)
+
+
+def search_parties_service(db, query: str):
+    return search_parties(db, query)

@@ -7,7 +7,7 @@ from app.api.deps import get_current_user
 from app.schemas.party import PartyCreate, PartyUpdate
 from app.services.party_service import (
     create_party, get_party, get_partys,
-    update_party, delete_party
+    update_party, delete_party, search_parties_service
 )
 
 router = APIRouter()
@@ -37,3 +37,18 @@ def update_party_api(party_id: int, data: PartyUpdate, db: Session = Depends(get
 def delete_party_api(party_id: int, db: Session = Depends(get_db)):
     delete_party(db, party_id)
     return {"message": "Deleted"}
+
+
+@router.get("/search")
+def search_party_api(
+    query: str,
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
+    results = search_parties_service(db, query)
+
+    return {
+        "message": "Search results",
+        "count": len(results),
+        "data": results
+    }
