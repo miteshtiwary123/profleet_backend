@@ -26,8 +26,7 @@ def get_all_partys_api(skip: int = 0, limit: int = 10, db: Session = Depends(get
 @router.get("/search")
 def search_party_api(
     query: str,
-    db: Session = Depends(get_db),
-    current_user = Depends(get_current_user)
+    db: Session = Depends(get_db)
 ):
     results = search_parties_service(db, query)
 
